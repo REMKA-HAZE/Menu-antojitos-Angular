@@ -1,0 +1,36 @@
+
+<div class="container">
+    <h4>Registrar Categorias</h4>
+    <hr>
+</div>
+<form class="animated fadeIn fast" (ngSubmit)="registrarCategorias(forma)" #forma="ngForm">
+    <div class="form-group-sm small">
+        <div class="row">
+            <div class="form-group col-md-12">
+                <div>
+                    <input class="form-control" type="text" placeholder="Nombre de la categoria" id=" validationServer01" [ngClass]="{ 'is-invalid': !strNombre.valid && strNombre.touched}" name="strNombre" [(ngModel)]="categorias.strNombre" #strNombre="ngModel" required placeholder="Categoria">
+                    <div class="invalid-feedback">
+                        El nombre es necesario.
+                    </div>
+                </div>
+                <div class="mt-2">
+                    <textarea class="form-control" type="text" placeholder="Descripcion" id=" validationServer07" [ngClass]="{ 'is-invalid': !strDescripcion.valid && strDescripcion.touched}" name="strDescripcion" [(ngModel)]="categorias.strDescripcion" #strDescripcion="ngModel" required placeholder="Descripcion"></textarea>
+                    <div class="invalid-feedback">
+                        El dato es necesario.
+                    </div>
+                </div>
+                <div class="mt-2">
+                    <select class="form-control" name="blnActivo" [(ngModel)]="categorias.blnActivo" #blnActivo="ngModel" id="validationServer02" required [ngClass]="{ 'is-invalid': !blnActivo.valid && blnActivo.touched}">
+                        <option [ngValue]="undefined" hidden>Elige</option>    
+                        <option [ngValue]="true">Activo</option>
+                        <option [ngValue]="false ">Inactivo</option>
+                    </select>
+                    <div class="invalid-feedback" *ngIf="blnActivo.errors?.required">
+                        Seleccione alguna opción
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-outline-info btn-sm btn-block" [disabled]="!forma.valid"><i class="fa fa-save mr-2 "></i>AGREGAR</button>
+    </div>
+</form>

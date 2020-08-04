@@ -1,0 +1,124 @@
+<div class="card">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="container mt-4" *ngIf="registrarCategorias">
+                <app-instertar-categoria [idCategorias]="idCategorias"
+                    (terminarActualizacion)="terminarActualizacion($event)">
+                </app-instertar-categoria>
+            </div>
+            <div class="container mt-4" *ngIf="actualizarCategorias">
+                <app-editar-categoria [idCategorias]="idCategorias" (terminarActualizacion)="terminarActualizacion($event)">
+                </app-editar-categoria>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <form>
+                <div class="row container mt-4">
+
+                    <div class="col-md-11 mt-2">
+                        <input type="text" [(ngModel)]="searchText.strNombre" name="searchText"
+                            class="form-control form-control-sm btn-outline-secondary ops" placeholder=" Buscar...">
+                    </div>
+
+                    <div class="col-md-1 mt-2">
+                        <div>
+                            <button type="button" class="btn btn-info btn-sm" id="dropdownReports"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i
+                                    class="fa fa-ellipsis-h "></i></button>
+                            <div class="dropdown-menu dropdown-menu-right shadow-lg " aria-labelledby="dropdownReports">
+                                <div class="dropdown-header text-info ">
+                                    <span class="text-xs text-uppercase ">EXPORTAR</span>
+                                </div>
+                                <a type="button" class="dropdown-item drop-options-text pdf " (click)="exportPDF()" ><i
+                                        class="fa fa-file-pdf-o mr-2 "></i>PDF</a>
+                                <a type="button" class="dropdown-item drop-options-text excel"
+                                (click)="exportAsXLSX()" ><i class="fa fa-file-excel-o mr-2 "></i>Excel</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row container mt-4">
+
+                    <div class="container small">
+
+                        <div class="row fadeIn">
+                            <div class="col-12">
+                                <div class="table-wrapper-scroll-y my-custom-scrollbar">
+                                    <table id="tab1" class="table table-sm table-hover table-borderless">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Categoria</th>
+                                                <th scope="col" class="text">Descripcion</th>
+                                                <th scope="col" class="text-center">Activo</th>
+                                                <th scope="col" class="text-center">Acciones</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr
+                                                *ngFor="let categoria of categorias | filterBy:searchText">
+                                                <td>{{categoria.strNombre}}</td>
+                                                <td>{{categoria.strDescripcion}}</td>
+                                                <td class="text-center">{{categoria.blnActivo == true ? 'Si': 'No'}}</td>
+                                               <td class="text-center">
+                                                <div class="btn-group">
+                                                    <a class="btn btn-sm btn-info " href="#" role="button" id="dropdownMenuLink"
+                                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        <i
+                                                        class="fa fa-ellipsis-h "></i>
+                                                    </a>
+                     
+                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                                        <a type="button" class="dropdown-item drop-options-text "
+                                                            (click)="mostrarActualizar(categoria._id)">
+                                                            <i class="fa fa-pen mr-1 "></i>Actualizar</a>
+                                                        <a type="button" class="dropdown-item drop-options-text "
+                                                            (click)="ActivarCategoria(categoria._id)" *ngIf="!categoria.blnActivo">
+                                                            <i class="fa fa-check mr-1 "></i>Activar</a>
+                                                        <a type="button" class="dropdown-item drop-options-text "
+                                                            (click)="eliminarCategoria(categoria._id)" *ngIf="categoria.blnActivo">
+                                                            <i class="fa fa-times mr-2"></i>Desactivar</a>
+                                                        <div class="dropdown-divider"></div>
+                                                        <a type="button" class="dropdown-item drop-options-text "
+                                                            [routerLink]="['/platillos', categoria._id]"><i
+                                                                class="fa fa-cog mr-1"></i>Gestionar
+                                                            platillos</a>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            </tr>
+                                        </tbody>
+                                        <tr class="bg-white"
+                                            *ngIf="categorias == '' || categorias === undefined && !cargando">
+                                            <td colspan="4" class="text-center">
+                                                <div class="alert alert-dismissible alert-light">
+                                                    <h5 style="height: 100%; width: 100%;">
+                                                        <strong><i class="fa fa-frown-o" aria-hidden="true"></i> ¡NO HAY
+                                                            REGISTROS PARA MOSTRAR!</strong>
+                                                    </h5>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <!-- SE MUESTRA CUANDO ESTÁ CARGANDO -->
+                                        <tr *ngIf="cargando">
+                                            <td colspan="14">
+                                                <div class=" alert-dismissible text-center"
+                                                    style="padding: .75rem 1.25rem;">
+                                                    <h5 style="height: 100%;width: 100%;"><strong><i
+                                                                class="fa fa-spinner fa-pulse"></i> CARGANDO</strong>
+                                                    </h5>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                  
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
